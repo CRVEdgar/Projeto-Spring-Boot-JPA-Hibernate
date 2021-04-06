@@ -19,7 +19,10 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @Transient
+    @ManyToMany
+    @JoinTable(name = "tbl_product_category", // [JoinTable] eh a tabela de associacao que deve ser criada em associacoes M<->M
+    joinColumns = @JoinColumn(name = "product_id"),// [joinColumns] = FK de tbl_product
+    inverseJoinColumns = @JoinColumn(name = "category_id")) // [inverseJoinColumns] = FK da tbl_category
     private Set<Category> categories = new HashSet<>(); // o [Set] eh pra garantir que nao vai haver um produto com mais de uma ocorrencia DA MESMA  categoria
     // um produto nao poder ter UMA MESMA CATEGORIA MAIS DE UMA VEZ
 
