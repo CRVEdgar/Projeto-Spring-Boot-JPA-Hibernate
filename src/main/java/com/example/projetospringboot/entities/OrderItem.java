@@ -1,6 +1,7 @@
 package com.example.projetospringboot.entities;
 
-import com.example.projetospringboot.entities.pk.OrdemItemPK;
+import com.example.projetospringboot.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,19 +11,19 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_order_item")
-public class OrdemItem implements Serializable {
+public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId //usado no caso de id composto
-    private OrdemItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
 
-    public OrdemItem() {
+    public OrderItem() {
     }
 
-    public OrdemItem(Order order, Product product, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
         id.setOrder(order);
         id.setProduct(product);
         this.quantity = quantity;
@@ -33,6 +34,7 @@ public class OrdemItem implements Serializable {
         return id.getOrder();
     }
 
+    @JsonIgnore // evitar loop infinito quando eh chamado em [Order -> ~Set<OrderItem> items~]
     public void setOrder(Order order){
         id.setOrder(order);
     }
@@ -65,8 +67,8 @@ public class OrdemItem implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrdemItem ordemItem = (OrdemItem) o;
-        return id.equals(ordemItem.id);
+        OrderItem orderItem = (OrderItem) o;
+        return id.equals(orderItem.id);
     }
 
     @Override
