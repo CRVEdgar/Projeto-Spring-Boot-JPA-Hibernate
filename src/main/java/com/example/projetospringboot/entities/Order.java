@@ -32,6 +32,10 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order") // a classe [OrdemItem] tem o atributo ~id~ (do tipo [OrdemItemPK) , que por sua vez tem o ~order~
     private Set<OrderItem> items = new HashSet<>();
 
+                                //[cascade = CascadeType] -> obrigatorio o uso em mapeamento 1x1 com mesmo id
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL) //[mappedBy] nome do atributo que esta mapeado na classe relacionada
+    private Payment payment;
+
     public Order(){
     }
 
@@ -74,6 +78,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems(){
