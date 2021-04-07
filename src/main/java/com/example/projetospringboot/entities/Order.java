@@ -29,7 +29,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id") //nome da chave estrangeira do id do cliente
     private User client; //FK
 
-    @OneToMany(mappedBy = "id.order")
+    @OneToMany(mappedBy = "id.order") // a classe [OrdemItem] tem o atributo ~id~ (do tipo [OrdemItemPK) , que por sua vez tem o ~order~
     private Set<OrderItem> items = new HashSet<>();
 
     public Order(){

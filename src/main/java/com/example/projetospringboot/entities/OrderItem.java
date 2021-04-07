@@ -30,11 +30,11 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore // evitar loop infinito quando eh chamado em [Order -> ~Set<OrderItem> items~]
     public Order getOrder(){
         return id.getOrder();
     }
 
-    @JsonIgnore // evitar loop infinito quando eh chamado em [Order -> ~Set<OrderItem> items~]
     public void setOrder(Order order){
         id.setOrder(order);
     }

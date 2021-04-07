@@ -1,5 +1,7 @@
 package com.example.projetospringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,6 +27,9 @@ public class Product implements Serializable {
     inverseJoinColumns = @JoinColumn(name = "category_id")) // [inverseJoinColumns] = FK da tbl_category
     private Set<Category> categories = new HashSet<>(); // o [Set] eh pra garantir que nao vai haver um produto com mais de uma ocorrencia DA MESMA  categoria
     // um produto nao poder ter UMA MESMA CATEGORIA MAIS DE UMA VEZ
+
+    @OneToMany(mappedBy = "id.product") // a classe [OrdemItem] tem o atributo ~id~ (do tipo [OrdemItemPK]) , que por sua vez tem o ~product~
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
     }
@@ -79,6 +84,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore // evitar loop infinito quando eh chamado em [Product -> ~Set<OrderItem> items~]
+    public Set<Order> getOrders(){
+        Set<Order> set = new HashSet<>();
+        for(OrderItem x : items){
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override
