@@ -1,5 +1,7 @@
 package com.example.projetospringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -15,6 +17,7 @@ public class Payment implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne
     @MapsId //utilizado nas associacoes 1 para 1 -> ultz na classe dependente
     private Order order;
