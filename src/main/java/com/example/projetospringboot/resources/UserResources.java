@@ -43,4 +43,10 @@ public class UserResources {
         service.delete(id);
         return ResponseEntity.noContent().build();//retorna uma resposta sem corpo ~vazia~
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
+        obj = service.update(id, obj);
+        return ResponseEntity.ok().body(obj);
+    }
 }
