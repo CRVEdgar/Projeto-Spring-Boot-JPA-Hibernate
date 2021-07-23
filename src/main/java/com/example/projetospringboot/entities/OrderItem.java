@@ -14,7 +14,7 @@ import java.util.Objects;
 public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId //usado no caso de id composto
+    @EmbeddedId //usado em caso de id composto
     private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
